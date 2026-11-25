@@ -1,0 +1,4 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Wed Nov 25 20:45:22 IST 2026
+@default-central-https\://repo.maven.apache.org/maven2/.lastUpdated=1795619722333
+https\://repo.maven.apache.org/maven2/.error=Could not transfer artifact org.springframework\:spring-orm\:jar\:6.1.13 from/to central (https\://repo.maven.apache.org/maven2)\: D\:\\sem 5\\java EWP project\\Census-management-system\\.m2-cache\\org\\springframework\\spring-orm\\6.1.13\\spring-orm-6.1.13.jar.6732620915266280108.tmp.4318553574163741622.tmp

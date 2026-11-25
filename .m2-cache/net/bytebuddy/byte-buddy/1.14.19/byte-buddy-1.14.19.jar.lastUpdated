@@ -1,0 +1,4 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Wed Nov 25 20:45:22 IST 2026
+@default-central-https\://repo.maven.apache.org/maven2/.lastUpdated=1795619722131
+https\://repo.maven.apache.org/maven2/.error=Could not transfer artifact net.bytebuddy\:byte-buddy\:jar\:1.14.19 from/to central (https\://repo.maven.apache.org/maven2)\: D\:\\sem 5\\java EWP project\\Census-management-system\\.m2-cache\\net\\bytebuddy\\byte-buddy\\1.14.19\\byte-buddy-1.14.19.jar.14796135562991428842.tmp.3013779250372959481.tmp
