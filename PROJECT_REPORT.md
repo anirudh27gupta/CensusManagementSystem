@@ -15,10 +15,9 @@
 5. [Database Design & Entity-Relationship Diagram](#5-database-design--entity-relationship-diagram)
 6. [Class Diagram & OOP Modeling](#6-class-diagram--oop-modeling)
 7. [Security Architecture & Regional Access Control](#7-security-architecture--regional-access-control)
-8. [End-to-End Request Lifecycle (Viva Focus)](#8-end-to-end-request-lifecycle-viva-focus)
+8. [End-to-End Request Lifecycle](#8-end-to-end-request-lifecycle)
 9. [REST API Specification](#9-rest-api-specification)
-10. [Comprehensive Viva Voce Q&A Preparation](#10-comprehensive-viva-voce-qa-preparation)
-11. [Conclusion & Future Scope](#11-conclusion--future-scope)
+10. [Conclusion & Future Scope](#10-conclusion--future-scope)
 
 ---
 
@@ -284,9 +283,8 @@ Security in the Census Management System is implemented following the principle 
 
 ---
 
-## 8. End-to-End Request Lifecycle (Viva Focus)
+## 8. End-to-End Request Lifecycle 
 
-During project evaluation and viva examinations, examiners frequently ask:
 > *"Trace a single request from the user interface down to the database and back."*
 
 Below is the exact execution flow:
@@ -343,44 +341,14 @@ sequenceDiagram
 
 ---
 
-## 10. Comprehensive Viva Voce Q&A Preparation
 
-### Q1: Why did you choose Spring Boot over traditional Java Servlets / JSP?
-**Answer**:
-Spring Boot significantly boosts productivity by providing auto-configuration, an embedded Tomcat server, and opinionated starter dependencies (`spring-boot-starter-web`, `spring-boot-starter-data-jpa`, `spring-boot-starter-security`). Traditional Servlets and JSPs require extensive boilerplate code, manual web.xml configuration, and external servlet container deployment (WAR files). Spring Boot allows building production-ready, self-contained standalone JAR applications.
 
-### Q2: How is cross-region security enforced in the application?
-**Answer**:
-Region security is enforced in the **Java Service Layer** (`HouseholdService` and `PersonService`), not in client-side code.
-When an enumerator logs in, their assigned `region_id` is loaded from the database into the `UserPrincipal`.
-Whenever an enumerator attempts to query, create, or update a household or citizen, the service method compares `household.getRegion().getId()` against `currentUser.getRegionId()`. If they do not match, a custom `RegionAccessDeniedException` is thrown, which translates into an **HTTP 403 Forbidden** response.
+## 10. Conclusion & Future Scope
 
-### Q3: How is password security implemented?
-**Answer**:
-Passwords are encrypted using the **BCrypt** algorithm via Spring Security's `BCryptPasswordEncoder`. BCrypt uses an adaptive cryptographic hashing function incorporating a random 128-bit salt and an exponential cost factor (default 10 rounds). This ensures passwords cannot be reverse-engineered via rainbow tables or brute-force dictionaries.
-
-### Q4: How does the system prevent duplicate citizen registrations?
-**Answer**:
-Duplicate prevention is enforced at two distinct levels:
-1. **Database Level**: The `person` table contains a unique constraint `CONSTRAINT uk_person_id_number UNIQUE (id_number)`.
-2. **Service Level**: Before persisting a record, `PersonService` invokes `personRepository.existsByIdNumber(idNumber)`. If a duplicate is detected, it throws `DuplicateResourceException`, prompting the controller to display a clear, user-friendly error message to the field officer rather than an unhandled SQL error.
-
-### Q5: What is the purpose of the `BaseEntity` class?
-**Answer**:
-`BaseEntity` is an abstract class annotated with `@MappedSuperclass`. It defines `createdAt` and `updatedAt` timestamp fields annotated with Hibernate's `@CreationTimestamp` and `@UpdateTimestamp`. Every entity (`Region`, `User`, `Household`, `Person`) extends `BaseEntity`, ensuring uniform audit logging across all tables without repeating boilerplate fields.
-
-### Q6: How does the system reject deactivated accounts if a token or session is active?
-**Answer**:
-On every incoming HTTP request, the `JwtAuthenticationFilter` or `CustomUserDetailsService` queries the database for the user's latest state. If `user.isActive()` is false, the service throws a `DisabledException`, which immediately prevents authentication from completing, rendering obsolete tokens useless.
-
----
-
-## 11. Conclusion & Future Scope
-
-### 11.1 Conclusion
+### 10.1 Conclusion
 The **Census Management System** successfully delivers a robust, secure, and user-friendly digital platform built 100% in Java. It replaces prone-to-error paper procedures with an automated, layered architecture featuring strict role-based access control, regional boundary protection, interactive demographic analytics, and one-click data portability.
 
-### 11.2 Future Scope (Post-Project Enhancements)
+### 10.2 Future Scope (Post-Project Enhancements)
 1. **Biometric Integration**: Support for fingerprint / iris hardware scanner APIs for identity verification.
 2. **GIS & Geospatial Heatmaps**: Integration with OpenStreetMap or Google Maps APIs to visualize population density overlays.
 3. **Offline Mobile Synchronization**: Progressive Web App (PWA) offline cache enabling field enumerators to gather survey data without active internet connectivity and synchronize upon reconnection.
